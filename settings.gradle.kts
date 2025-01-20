@@ -19,5 +19,10 @@ dependencyResolutionManagement {
     }
 }
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 rootProject.name = "RandomUser"
 include(":app")
+include(":feature-users")
+include(":data")
+include(":domain")

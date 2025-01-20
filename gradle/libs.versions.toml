@@ -10,7 +10,12 @@ activityCompose = "1.8.0"
 composeBom = "2024.04.01"
 composeNavigation = "2.8.5"
 hilt = "2.51.1"
+hiltNavigation = "1.2.0"
 kotlinPlugin = "2.1.0"
+appcompatVersion = "1.7.0"
+material = "1.12.0"
+retrofit = "2.11.0"
+okhttp3 = "5.0.0-alpha.14"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -30,6 +35,11 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
 dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigation" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompatVersion" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit"}
+okhttp3 = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -37,5 +47,8 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlinPlugin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+
+
 
 
