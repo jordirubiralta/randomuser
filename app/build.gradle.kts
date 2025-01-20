@@ -21,6 +21,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            isDebuggable = true
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -75,6 +78,8 @@ dependencies {
 
     // Project Dependencies
     implementation(project(":feature-users"))
+    implementation(project(":domain"))
+    implementation(project(":data"))
 }
 
 // Allow references to generated code

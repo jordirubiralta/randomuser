@@ -26,7 +26,9 @@ android {
 dependencies {
     // Network Dependencies
     implementation(libs.retrofit)
+    implementation(libs.gsonConverter)
     implementation(libs.okhttp3)
+    implementation(libs.gson)
 
     // Hilt Dependencies
     implementation(libs.dagger.hilt.android)

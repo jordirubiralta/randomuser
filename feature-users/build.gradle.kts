@@ -55,4 +55,7 @@ dependencies {
     // Debug Tools
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Project Dependencies
+    implementation(project(":domain"))
 }
