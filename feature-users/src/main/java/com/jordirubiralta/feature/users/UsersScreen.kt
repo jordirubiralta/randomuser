@@ -1,16 +1,11 @@
 package com.jordirubiralta.feature.users
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -37,7 +32,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
-import com.jordirubiralta.feature.users.components.UserCard
+import com.jordirubiralta.feature.users.components.UserListContent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -52,7 +47,6 @@ fun UsersScreen(
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val lazyListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
@@ -80,80 +74,76 @@ fun UsersScreen(
         viewModel.fetchUsers(someInputText.text)
     }
 
-    LazyColumn(
-        modifier = modifier
-            .fillMaxSize(),
-        state = lazyListState,
-        horizontalAlignment = Alignment.CenterHorizontally
+    Column(
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        item {
-            TextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                value = someInputText,
-                onValueChange = {
-                    someInputText = it
-                },
-                label = { Text(text = stringResource(R.string.filter)) },
-                placeholder = {
-                    Text(
-                        text = stringResource(R.string.input_hint),
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-                    )
-                },
-                singleLine = true,
-                trailingIcon = {
-                    IconButton(
-                        onClick = { someInputText = TextFieldValue("") },
-                        content = {
-                            Icon(
-                                painter = painterResource(R.drawable.close),
-                                contentDescription = stringResource(R.string.close)
-                            )
-                        }
-                    )
-                }
-            )
-        }
-
-        itemsIndexed(state.userList) { index, model ->
-            UserCard(
-                uiModel = model,
-                onRowClicked = { navigateToDetail(it) },
-                onRemoveClicked = {
-                    viewModel.deleteUser(email = it, context = context)
-                }
-            )
-            if (index != state.userList.size.dec()) {
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-        }
-
-        if (state.userList.isEmpty()) {
-            item {
-                Text(stringResource(R.string.no_results))
-            }
-        }
-
-        item {
-            if (state.isLoading) {
-                CircularProgressIndicator(
-                    strokeWidth = 3.dp,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .size(40.dp)
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            value = someInputText,
+            onValueChange = {
+                someInputText = it
+            },
+            label = { Text(text = stringResource(R.string.filter)) },
+            placeholder = {
+                Text(
+                    text = stringResource(R.string.input_hint),
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                 )
-            } else if (someInputText.text.isBlank()) {
-                Button(
-                    modifier = Modifier
-                        .padding(vertical = 16.dp)
-                        .background(MaterialTheme.colorScheme.background),
-                    onClick = { viewModel.fetchMoreUsers() }
-                ) {
-                    Text(stringResource(R.string.load_more))
+            },
+            singleLine = true,
+            trailingIcon = {
+                IconButton(
+                    onClick = { someInputText = TextFieldValue("") },
+                    content = {
+                        Icon(
+                            painter = painterResource(R.drawable.close),
+                            contentDescription = stringResource(R.string.close)
+                        )
+                    }
+                )
+            }
+        )
+        when (state) {
+            is UsersScreenState.Empty -> {
+                Text(
+                    text = stringResource(R.string.no_results),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+
+            is UsersScreenState.Error -> {
+                Text(
+                    text = (state as UsersScreenState.Error).message
+                        ?: stringResource(R.string.generic_error),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+
+            is UsersScreenState.Loading -> {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    CircularProgressIndicator(
+                        strokeWidth = 3.dp,
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .size(40.dp)
+                    )
                 }
+            }
+
+            is UsersScreenState.Success -> {
+                UserListContent(
+                    userList = (state as UsersScreenState.Success).userList,
+                    isLoadingMore = (state as UsersScreenState.Success).isLoadingMore,
+                    showLoadMore = (state as UsersScreenState.Success).showLoadMore,
+                    navigateToDetail = { navigateToDetail(it) },
+                    deleteUser = { viewModel.deleteUser(email = it, context = context) },
+                    fetchMoreUsers = { viewModel.fetchMoreUsers() },
+                )
             }
         }
     }
+
 }

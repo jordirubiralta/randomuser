@@ -7,5 +7,6 @@
     <string name="load_more">Load more</string>
     <string name="input_hint">Name, surname, email…</string>
     <string name="no_results">No results</string>
+    <string name="generic_error">Something went wrong. Please try again later.</string>
     <string name="snackbar_delete_item">Item deleted</string>
 </resources>
