@@ -1,6 +1,7 @@
 package com.jordirubiralta.domain.repository
 
 import com.jordirubiralta.domain.model.UserListModel
+import com.jordirubiralta.domain.model.UserModel
 
 interface UserRepository {
 
@@ -10,4 +11,5 @@ interface UserRepository {
 
     suspend fun deleteUser(email: String)
 
+    suspend fun getUserByEmail(email: String): UserModel?
 }

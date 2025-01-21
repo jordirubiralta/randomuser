@@ -27,12 +27,12 @@ class UsersViewModel @Inject constructor(
     private val _state = MutableStateFlow(UsersScreenState(isLoading = true))
     val state: StateFlow<UsersScreenState> = _state.asStateFlow()
 
-    var page: Int? = null
+    private var page: Int? = null
 
     fun fetchUsers(search: String? = null) {
         viewModelScope.launch {
             reduceState(isLoading = true)
-            val userListModel = fetchUsersUseCase.invoke(search = search)
+            val userListModel = fetchUsersUseCase(search = search)
             page = userListModel.page
             reduceState(
                 isLoading = false,
@@ -44,7 +44,7 @@ class UsersViewModel @Inject constructor(
     fun fetchMoreUsers() {
         viewModelScope.launch {
             reduceState(isLoading = true)
-            val userListModel = fetchMoreUsersUseCase.invoke(page = page?.inc() ?: 1)
+            val userListModel = fetchMoreUsersUseCase(page = page?.inc() ?: 1)
             page = userListModel.page
             val newList = UserUIMapper.fromUserModelListToUIModel(list = userListModel.userList)
             reduceState(
@@ -56,7 +56,7 @@ class UsersViewModel @Inject constructor(
 
     fun deleteUser(email: String) {
         viewModelScope.launch {
-            deleteUserUseCase.invoke(email)
+            deleteUserUseCase(email)
             val newList = _state.value.userList.filterNot { it.email == email }.toImmutableList()
             reduceState(userList = newList)
             // TODO show deleted snackbar

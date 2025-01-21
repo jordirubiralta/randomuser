@@ -40,6 +40,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.compose.navigation)
     implementation(libs.coil)
+    implementation(libs.coil.network)
 
 
     // Hilt Dependencies

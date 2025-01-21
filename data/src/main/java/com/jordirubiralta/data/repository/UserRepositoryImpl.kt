@@ -40,6 +40,12 @@ class UserRepositoryImpl @Inject constructor(
         localDataSource.deleteUser(email = email)
     }
 
+    override suspend fun getUserByEmail(email: String): UserModel? = withContext(ioDispatcher) {
+        localDataSource.getUserById(email = email)
+    }
+
+    // private method
+
     private suspend fun filterDeletedUsers(users: List<UserModel>): List<UserModel> {
         val deletedUsers = localDataSource.getDeletedUsers()
         return users.filterNot { deletedUsers.contains(it.email) }

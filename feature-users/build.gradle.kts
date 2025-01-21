@@ -41,7 +41,7 @@ dependencies {
     implementation(libs.androidx.compose.navigation)
     implementation(libs.kotlinx.immutable)
     implementation(libs.coil)
-
+    implementation(libs.coil.network)
 
     // Hilt Dependencies
     implementation(libs.dagger.hilt.android)

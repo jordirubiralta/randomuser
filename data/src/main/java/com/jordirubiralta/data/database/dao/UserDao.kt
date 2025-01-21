@@ -1,7 +1,6 @@
 package com.jordirubiralta.data.database.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -25,4 +24,7 @@ interface UserDao {
 
     @Query("SELECT * FROM deleted_users")
     suspend fun getAllDeletedUsers(): List<DeletedUserEntity>
+
+    @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
+    suspend fun getUserByEmail(email: String): UserEntity?
 }

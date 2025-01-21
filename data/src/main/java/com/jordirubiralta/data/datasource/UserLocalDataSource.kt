@@ -31,4 +31,6 @@ class UserLocalDataSource @Inject constructor(
     suspend fun getDeletedUsers(): List<String> =
         userDao.getAllDeletedUsers().map { it.email }
 
+    suspend fun getUserById(email: String): UserModel? =
+        userDao.getUserByEmail(email = email)?.let(UserMapper::fromUserEntityToModel)
 }

@@ -23,7 +23,7 @@ object UserMapper {
         phone = response.phone,
         thumbnailImageUrl = response.picture?.thumbnail,
         largeImageUrl = response.picture?.large,
-        location = response.location?.let { "${it.street}, ${it.city}, ${it.street}, ${it.country}" },
+        location = response.location?.toString(),
         registreredDate = response.registered?.date
     )
 
@@ -44,11 +44,10 @@ object UserMapper {
         registreredDate = model.registreredDate
     )
 
-    // entity to model
     fun fromUserListEntityToModel(list: List<UserEntity>): List<UserModel> =
         list.map(::fromUserEntityToModel)
 
-    private fun fromUserEntityToModel(entity: UserEntity) = UserModel(
+    fun fromUserEntityToModel(entity: UserEntity) = UserModel(
         gender = entity.gender,
         title = entity.title,
         name = entity.name,

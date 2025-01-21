@@ -7,8 +7,8 @@ data class UserListModel(
     fun filterList(search: String): UserListModel {
         val filteredList = userList.filter { user ->
             user.name.contains(search, ignoreCase = true)
-                    || user.name.contains(search, ignoreCase = true)
-                    || user.name.contains(search, ignoreCase = true)
+                    || user.surname.contains(search, ignoreCase = true)
+                    || user.email.contains(search, ignoreCase = true)
         }
         return this.copy(userList = filteredList)
     }
