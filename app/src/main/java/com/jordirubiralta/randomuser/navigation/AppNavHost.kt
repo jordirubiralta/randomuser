@@ -18,9 +18,9 @@ fun AppNavHost(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = NavigationItem.UsersList.route
+        startDestination = NavigationItem.UserList.route
     ) {
-        composable(NavigationItem.UsersList.route) {
+        composable(NavigationItem.UserList.route) {
             UsersScreen(
                 navigateToDetail = { email ->
                     val route = NavigationItem.UserDetail.createRoute(email = email)

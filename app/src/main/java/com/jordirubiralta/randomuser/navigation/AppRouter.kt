@@ -14,7 +14,7 @@ sealed class NavigationItem(
     val route: String,
     val navArguments: List<NamedNavArgument> = emptyList()
 ) {
-    data object UsersList : NavigationItem(route = Screen.LIST.route)
+    data object UserList : NavigationItem(route = Screen.LIST.route)
     data object UserDetail : NavigationItem(
         route = "${Screen.DETAIL.route}/{${ArgParams.EMAIL}}",
         navArguments = listOf(

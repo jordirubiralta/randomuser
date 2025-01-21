@@ -57,7 +57,7 @@ private fun AppTopBar(
     modifier: Modifier = Modifier
 ) {
     when (currentRoute) {
-        NavigationItem.UsersList.route -> {
+        NavigationItem.UserList.route -> {
             CenterAlignedTopAppBar(
                 modifier = modifier,
                 title = { Text(stringResource(R.string.user_list_title)) }
