@@ -1,5 +1,6 @@
 package com.jordirubiralta.feature.users
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jordirubiralta.domain.usecase.DeleteUserUseCase
@@ -10,9 +11,12 @@ import com.jordirubiralta.feature.users.model.UserUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,6 +30,9 @@ class UsersViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(UsersScreenState(isLoading = true))
     val state: StateFlow<UsersScreenState> = _state.asStateFlow()
+
+    private val _effect = Channel<UserScreenUIEffect>()
+    val effect: Flow<UserScreenUIEffect> = _effect.receiveAsFlow()
 
     private var page: Int? = null
 
@@ -54,12 +61,16 @@ class UsersViewModel @Inject constructor(
         }
     }
 
-    fun deleteUser(email: String) {
+    fun deleteUser(email: String, context: Context) {
         viewModelScope.launch {
             deleteUserUseCase(email)
             val newList = _state.value.userList.filterNot { it.email == email }.toImmutableList()
             reduceState(userList = newList)
-            // TODO show deleted snackbar
+            _effect.send(
+                UserScreenUIEffect.DeleteItemSnackbar(
+                    message = context.getString(R.string.snackbar_delete_item)
+                )
+            )
         }
     }
 
@@ -73,6 +84,5 @@ class UsersViewModel @Inject constructor(
                 userList = userList ?: _state.value.userList
             )
         }
-
     }
 }

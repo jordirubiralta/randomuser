@@ -11,15 +11,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -32,17 +27,22 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.jordirubiralta.feature.users.components.UserCard
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UsersScreen(
     navigateToDetail: (String) -> Unit,
@@ -54,8 +54,26 @@ fun UsersScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val lazyListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val context = LocalContext.current
 
     var someInputText by remember { mutableStateOf(TextFieldValue("")) }
+
+    LaunchedEffect(key1 = Unit) {
+        withContext(Dispatchers.Main) {
+            lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.effect.collect { value ->
+                    when (value) {
+                        is UserScreenUIEffect.DeleteItemSnackbar -> {
+                            coroutineScope.launch {
+                                snackbarState.showSnackbar(message = value.message)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     LaunchedEffect(key1 = someInputText) {
         delay(500)
@@ -103,7 +121,9 @@ fun UsersScreen(
             UserCard(
                 uiModel = model,
                 onRowClicked = { navigateToDetail(it) },
-                onRemoveClicked = viewModel::deleteUser
+                onRemoveClicked = {
+                    viewModel.deleteUser(email = it, context = context)
+                }
             )
             if (index != state.userList.size.dec()) {
                 Spacer(modifier = Modifier.height(8.dp))
@@ -137,21 +157,3 @@ fun UsersScreen(
         }
     }
 }
-
-//        floatingActionButton = {
-//            FloatingActionButton(
-//                containerColor = MaterialTheme.colorScheme.primary,
-//                onClick = {
-//                    coroutineScope.launch {
-//                        lazyListState.animateScrollToItem(0)
-//                    }
-//                },
-//                content = {
-//                    Icon(
-//                        modifier = Modifier.padding(16.dp),
-//                        painter = painterResource(R.drawable.arrow_up),
-//                        contentDescription = stringResource(R.string.scroll_up)
-//                    )
-//                }
-//            )
-//        },
