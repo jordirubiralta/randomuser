@@ -11,18 +11,12 @@ object UserMapper {
 
     private fun fromUserResponseToModel(response: UserResponse) = UserModel(
         gender = response.gender,
-        title = "response.name?.title",
-        name = "response.name?.first.orEmpty()",
-        surname = "response.name?.last.orEmpty()",
-        email = "response.email.orEmpty()",
-        phone = "response.phone",
-        imageUrl = "response.picture?.thumbnail"
-        /*title = response.name?.title,
+        title = response.name?.title,
         name = response.name?.first.orEmpty(),
         surname = response.name?.last.orEmpty(),
         email = response.email.orEmpty(),
         phone = response.phone,
-        imageUrl = response.picture?.thumbnail*/
+        imageUrl = response.picture?.thumbnail
     )
 
 }

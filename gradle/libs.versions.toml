@@ -18,6 +18,8 @@ retrofit = "2.11.0"
 okhttp3 = "5.0.0-alpha.14"
 javaxInject = "1"
 gson = "2.10.1"
+kotlinxImmutable = "0.3.8"
+coil = "3.0.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -45,7 +47,8 @@ gsonConverter = { group = "com.squareup.retrofit2", name = "converter-gson", ver
 okhttp3 = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3"}
 javax-inject = { group = "javax.inject", name = "javax.inject", version.ref = "javaxInject"}
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson"}
-
+kotlinx-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutable"}
+coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

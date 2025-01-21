@@ -15,7 +15,7 @@ class UserRepositoryImpl @Inject constructor(
     private val networkDataSource: UserNetworkDataSource
 ) : UserRepository {
 
-    override suspend fun getUsers(result: Int): List<UserModel> = withContext(ioDispatcher) {
-        networkDataSource.getUsers(result = result)
+    override suspend fun getUsers(results: Int): List<UserModel> = withContext(ioDispatcher) {
+        networkDataSource.getUsers(results = results)
     }
 }

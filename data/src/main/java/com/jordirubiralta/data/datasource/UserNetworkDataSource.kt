@@ -12,9 +12,9 @@ class UserNetworkDataSource @Inject constructor(
     private val userApi: UserApi
 ) {
 
-    suspend fun getUsers(result: Int): List<UserModel> =
+    suspend fun getUsers(results: Int): List<UserModel> =
         try {
-            val response = userApi.getUsers(result = result)
+            val response = userApi.getUsers(results = results)
             UserMapper.fromUserListResponseToModel(response)
         } catch (e: Exception) {
             // Manage exception

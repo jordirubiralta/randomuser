@@ -8,13 +8,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UsersViewModel @Inject constructor(
-    private val getUserListUseCase: GetUserListUseCase
-) : ViewModel() {
+class UsersViewModel @Inject constructor() : ViewModel() {
+
+
 
     fun getUsers() {
         viewModelScope.launch {
-            getUserListUseCase.invoke()
         }
     }
 }

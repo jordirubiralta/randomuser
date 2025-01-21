@@ -4,6 +4,6 @@ import com.jordirubiralta.domain.model.UserModel
 
 interface UserRepository {
 
-    suspend fun getUsers(result: Int): List<UserModel>
+    suspend fun getUsers(results: Int): List<UserModel>
 
 }

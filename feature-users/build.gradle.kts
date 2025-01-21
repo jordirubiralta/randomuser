@@ -39,6 +39,9 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.compose.navigation)
+    implementation(libs.kotlinx.immutable)
+    implementation(libs.coil)
+
 
     // Hilt Dependencies
     implementation(libs.dagger.hilt.android)
