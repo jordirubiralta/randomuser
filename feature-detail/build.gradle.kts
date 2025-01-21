@@ -42,7 +42,6 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.coil.network)
 
-
     // Hilt Dependencies
     implementation(libs.dagger.hilt.android)
     implementation(libs.hilt.navigation)

@@ -36,10 +36,8 @@ dependencies {
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
 
-
     // Hilt Dependencies
     implementation(libs.dagger.hilt.android)
-    implementation(libs.hilt.navigation)
     kapt(libs.dagger.hilt.compiler)
 
     // Project Dependencies
