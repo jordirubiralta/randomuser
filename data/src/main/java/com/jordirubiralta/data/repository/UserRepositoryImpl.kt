@@ -27,13 +27,14 @@ class UserRepositoryImpl @Inject constructor(
             ?: fetchUsersFromNetwork()
     }
 
-    override suspend fun fetchUsersFromNetwork(page: Int): UserListModel {
-        val userListModel = networkDataSource.getUsers(results = RESULTS_PER_PAGE, page = page)
+    override suspend fun fetchUsersFromNetwork(page: Int): UserListModel =
+        withContext(ioDispatcher) {
+            val userListModel = networkDataSource.getUsers(results = RESULTS_PER_PAGE, page = page)
 
-        val filteredList = filterDeletedUsers(userListModel.userList)
-        localDataSource.insertAllUsers(userList = filteredList)
-        return userListModel.copy(userList = filteredList)
-    }
+            val filteredList = filterDeletedUsers(userListModel.userList)
+            localDataSource.insertAllUsers(userList = filteredList)
+            return@withContext userListModel.copy(userList = filteredList)
+        }
 
     override suspend fun deleteUser(email: String) = withContext(ioDispatcher) {
         localDataSource.deleteUser(email = email)

@@ -14,8 +14,7 @@ object UserUIMapper {
         name = model.name,
         surname = model.surname,
         email = model.email,
-        imageUrl = model.imageUrl,
+        imageUrl = model.thumbnailImageUrl,
         phone = model.phone
     )
-
 }

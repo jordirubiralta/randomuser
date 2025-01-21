@@ -11,6 +11,9 @@ data class UserEntity(
     val surname: String,
     val email: String,
     val gender: String?,
-    val imageUrl: String?,
-    val phone: String?
+    val thumbnailImageUrl: String?,
+    val largeImageUrl: String?,
+    val phone: String?,
+    val registreredDate: String?,
+    val location: String?
 )

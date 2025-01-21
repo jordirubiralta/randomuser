@@ -21,7 +21,10 @@ object UserMapper {
         surname = response.name?.last.orEmpty(),
         email = response.email.orEmpty(),
         phone = response.phone,
-        imageUrl = response.picture?.thumbnail
+        thumbnailImageUrl = response.picture?.thumbnail,
+        largeImageUrl = response.picture?.large,
+        location = response.location?.let { "${it.street}, ${it.city}, ${it.street}, ${it.country}" },
+        registreredDate = response.registered?.date
     )
 
     // model to entity
@@ -29,13 +32,16 @@ object UserMapper {
         list.map(::fromUserModelToEntity)
 
     fun fromUserModelToEntity(model: UserModel) = UserEntity(
+        gender = model.gender,
         title = model.title,
         name = model.name,
         surname = model.surname,
         email = model.email,
-        imageUrl = model.imageUrl,
         phone = model.phone,
-        gender = model.gender
+        thumbnailImageUrl = model.thumbnailImageUrl,
+        largeImageUrl = model.largeImageUrl,
+        location = model.location,
+        registreredDate = model.registreredDate
     )
 
     // entity to model
@@ -43,12 +49,15 @@ object UserMapper {
         list.map(::fromUserEntityToModel)
 
     private fun fromUserEntityToModel(entity: UserEntity) = UserModel(
+        gender = entity.gender,
         title = entity.title,
         name = entity.name,
         surname = entity.surname,
         email = entity.email,
-        imageUrl = entity.imageUrl,
-        gender = entity.gender,
-        phone = entity.phone
+        phone = entity.phone,
+        thumbnailImageUrl = entity.thumbnailImageUrl,
+        largeImageUrl = entity.largeImageUrl,
+        location = entity.location,
+        registreredDate = entity.registreredDate
     )
 }

@@ -1,6 +1,7 @@
 package com.jordirubiralta.feature.users.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -37,6 +38,7 @@ fun UserCard(
 ) {
     Card(
         modifier = Modifier
+            .clickable { onRowClicked(uiModel.email) }
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
         shape = RoundedCornerShape(8.dp)

@@ -6,6 +6,9 @@ data class UserModel(
     val name: String,
     val surname: String,
     val email: String,
-    val imageUrl: String?,
-    val phone: String?
+    val thumbnailImageUrl: String?,
+    val largeImageUrl: String?,
+    val phone: String?,
+    val location: String?,
+    val registreredDate: String?
 )

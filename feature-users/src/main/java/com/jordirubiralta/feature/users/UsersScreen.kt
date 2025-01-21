@@ -45,8 +45,9 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UsersScreen(
+    navigateToDetail: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: UsersViewModel = hiltViewModel()
+    viewModel: UsersViewModel = hiltViewModel(),
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -130,7 +131,7 @@ fun UsersScreen(
                 itemsIndexed(state.userList) { index, model ->
                     UserCard(
                         uiModel = model,
-                        onRowClicked = { /*Navigate to detail*/ },
+                        onRowClicked = { navigateToDetail(it) },
                         onRemoveClicked = viewModel::deleteUser
                     )
                     if (index != state.userList.size.dec()) {

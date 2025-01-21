@@ -7,5 +7,4 @@ data class LocationResponse(
     @SerializedName("city") val city: String?,
     @SerializedName("state") val state: String?,
     @SerializedName("country") val country: String?,
-    @SerializedName("postcode") val postcode: String?
 )
