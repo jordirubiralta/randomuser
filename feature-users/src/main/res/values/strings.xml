@@ -4,4 +4,8 @@
     <string name="close">Close</string>
     <string name="filter">Filter</string>
     <string name="user_list_title">Users List</string>
+    <string name="user_image">User image</string>
+    <string name="load_more">Load more</string>
+    <string name="input_hint">Name, surname, email…</string>
+    <string name="no_results">No results</string>
 </resources>

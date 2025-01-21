@@ -4,9 +4,9 @@ import com.jordirubiralta.domain.model.UserListModel
 
 interface UserRepository {
 
-    suspend fun fetchUsers(search: String?): UserListModel
+    suspend fun fetchUsers(): UserListModel
 
-    suspend fun fetchMoreUsers(search: String?, page: Int): UserListModel
+    suspend fun fetchUsersFromNetwork(page: Int = 1): UserListModel
 
     suspend fun deleteUser(email: String)
 

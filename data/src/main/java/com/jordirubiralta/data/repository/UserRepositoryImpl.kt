@@ -4,6 +4,7 @@ import com.jordirubiralta.data.datasource.UserLocalDataSource
 import com.jordirubiralta.data.datasource.UserNetworkDataSource
 import com.jordirubiralta.data.di.IoDispatcher
 import com.jordirubiralta.domain.model.UserListModel
+import com.jordirubiralta.domain.model.UserModel
 import com.jordirubiralta.domain.repository.UserRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -21,36 +22,25 @@ class UserRepositoryImpl @Inject constructor(
         private const val RESULTS_PER_PAGE = 20
     }
 
-    override suspend fun fetchUsers(search: String?): UserListModel =
-        withContext(ioDispatcher) {
-            val userListModel = (localDataSource.getAllUsers().takeUnless { it.userList.isEmpty() }
-                ?: getNetworkUsers())
-            return@withContext search?.takeUnless { it.isBlank() }?.let {
-                userListModel.filterList(it)
-            } ?: userListModel
-        }
+    override suspend fun fetchUsers(): UserListModel = withContext(ioDispatcher) {
+        localDataSource.getAllUsers().takeUnless { it.userList.isEmpty() }
+            ?: fetchUsersFromNetwork()
+    }
 
-    override suspend fun fetchMoreUsers(search: String?, page: Int): UserListModel =
-        withContext(ioDispatcher) {
-            val userListModel = getNetworkUsers(page = page)
-            return@withContext search?.takeUnless { it.isBlank() }?.let {
-                userListModel.filterList(it)
-            } ?: userListModel
-        }
+    override suspend fun fetchUsersFromNetwork(page: Int): UserListModel {
+        val userListModel = networkDataSource.getUsers(results = RESULTS_PER_PAGE, page = page)
+
+        val filteredList = filterDeletedUsers(userListModel.userList)
+        localDataSource.insertAllUsers(userList = filteredList)
+        return userListModel.copy(userList = filteredList)
+    }
 
     override suspend fun deleteUser(email: String) = withContext(ioDispatcher) {
         localDataSource.deleteUser(email = email)
     }
 
-    // private methods
-    private suspend fun getNetworkUsers(page: Int = 1): UserListModel {
-        val userListModel = networkDataSource.getUsers(results = RESULTS_PER_PAGE, page = page)
-
+    private suspend fun filterDeletedUsers(users: List<UserModel>): List<UserModel> {
         val deletedUsers = localDataSource.getDeletedUsers()
-        val filteredList = userListModel.userList.filterNot { deletedUsers.contains(it.email) }
-        localDataSource.insertAllUsers(userList = filteredList)
-
-        return userListModel.copy(userList = filteredList)
+        return users.filterNot { deletedUsers.contains(it.email) }
     }
-
 }

@@ -7,7 +7,6 @@ import javax.inject.Inject
 class FetchMoreUsersUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
-
-    suspend operator fun invoke(search: String?, page: Int): UserListModel =
-        userRepository.fetchMoreUsers(search = search, page = page)
+    suspend operator fun invoke(page: Int): UserListModel =
+        userRepository.fetchUsersFromNetwork(page = page)
 }

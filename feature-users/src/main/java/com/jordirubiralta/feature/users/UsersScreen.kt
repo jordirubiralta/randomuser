@@ -1,7 +1,6 @@
 package com.jordirubiralta.feature.users
 
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,7 +25,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,8 +32,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
@@ -56,16 +53,6 @@ fun UsersScreen(
     val lazyListState = rememberLazyListState()
     val snackbarState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
-
-    val hasToFetchMoreUsers = remember {
-        derivedStateOf {
-            val totalItems = lazyListState.layoutInfo.totalItemsCount
-            val lastItemVisible = lazyListState.layoutInfo.visibleItemsInfo.lastOrNull()
-
-            lastItemVisible?.index == totalItems.dec() &&
-                    lastItemVisible.offset + lastItemVisible.size <= lazyListState.layoutInfo.viewportEndOffset
-        }
-    }
 
     var someInputText by remember { mutableStateOf(TextFieldValue("")) }
 
@@ -119,6 +106,12 @@ fun UsersScreen(
                             someInputText = it
                         },
                         label = { Text(text = stringResource(R.string.filter)) },
+                        placeholder = {
+                            Text(
+                                text = stringResource(R.string.input_hint),
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                            )
+                        },
                         singleLine = true,
                         trailingIcon = {
                             IconButton(
@@ -145,36 +138,30 @@ fun UsersScreen(
                     }
                 }
 
-                if (state.isLoadingMore) {
+                if (state.userList.isEmpty()) {
                     item {
+                        Text(stringResource(R.string.no_results))
+                    }
+                }
+
+                item {
+                    if (state.isLoading) {
                         CircularProgressIndicator(
                             strokeWidth = 3.dp,
                             modifier = Modifier
                                 .padding(16.dp)
                                 .size(40.dp)
                         )
-                    }
-                } else if (hasToFetchMoreUsers.value) {
-                    viewModel.fetchMoreUsers(search = someInputText.text)
-                }
-            }
-
-            if (state.isLoading) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .pointerInput(Unit) {
-                            detectTapGestures { /* block screen interactions while loading*/ }
+                    } else if (someInputText.text.isBlank()) {
+                        Button(
+                            modifier = Modifier
+                                .padding(vertical = 16.dp)
+                                .background(MaterialTheme.colorScheme.background),
+                            onClick = { viewModel.fetchMoreUsers() }
+                        ) {
+                            Text(stringResource(R.string.load_more))
                         }
-                ) {
-                    CircularProgressIndicator(
-                        color = MaterialTheme.colorScheme.onSurface,
-                        strokeWidth = 3.dp,
-                        modifier = Modifier
-                            .size(40.dp)
-                            .align(Alignment.Center)
-                            .alpha(1f)
-                    )
+                    }
                 }
             }
         }

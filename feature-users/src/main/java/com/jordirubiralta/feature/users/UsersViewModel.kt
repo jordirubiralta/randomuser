@@ -24,7 +24,7 @@ class UsersViewModel @Inject constructor(
     private val deleteUserUseCase: DeleteUserUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(UsersScreenState())
+    private val _state = MutableStateFlow(UsersScreenState(isLoading = true))
     val state: StateFlow<UsersScreenState> = _state.asStateFlow()
 
     var page: Int? = null
@@ -36,24 +36,19 @@ class UsersViewModel @Inject constructor(
             page = userListModel.page
             reduceState(
                 isLoading = false,
-                isLoadingMore = false,
                 userList = UserUIMapper.fromUserModelListToUIModel(list = userListModel.userList)
             )
         }
     }
 
-    fun fetchMoreUsers(search: String? = null) {
+    fun fetchMoreUsers() {
         viewModelScope.launch {
-            reduceState(isLoadingMore = true)
-            val userListModel = fetchMoreUsersUseCase.invoke(
-                search = search,
-                page = page?.inc() ?: 1
-            )
+            reduceState(isLoading = true)
+            val userListModel = fetchMoreUsersUseCase.invoke(page = page?.inc() ?: 1)
             page = userListModel.page
             val newList = UserUIMapper.fromUserModelListToUIModel(list = userListModel.userList)
             reduceState(
                 isLoading = false,
-                isLoadingMore = false,
                 userList = (_state.value.userList + newList).toImmutableList()
             )
         }
@@ -70,13 +65,11 @@ class UsersViewModel @Inject constructor(
 
     private fun reduceState(
         isLoading: Boolean? = null,
-        isLoadingMore: Boolean? = null,
         userList: ImmutableList<UserUIModel>? = null
     ) {
         _state.update {
             it.copy(
                 isLoading = isLoading ?: _state.value.isLoading,
-                isLoadingMore = isLoadingMore ?: _state.value.isLoadingMore,
                 userList = userList ?: _state.value.userList
             )
         }
