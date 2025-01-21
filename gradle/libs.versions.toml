@@ -12,6 +12,7 @@ composeNavigation = "2.8.5"
 hilt = "2.51.1"
 hiltNavigation = "1.2.0"
 kotlinPlugin = "2.1.0"
+ksp = "2.0.21-1.0.27"
 appcompatVersion = "1.7.0"
 material = "1.12.0"
 retrofit = "2.11.0"
@@ -20,6 +21,7 @@ javaxInject = "1"
 gson = "2.10.1"
 kotlinxImmutable = "0.3.8"
 coil = "3.0.4"
+room = "2.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -49,6 +51,9 @@ javax-inject = { group = "javax.inject", name = "javax.inject", version.ref = "j
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson"}
 kotlinx-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutable"}
 coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil"}
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room"}
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room"}
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -56,8 +61,5 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlinPlugin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-
-
-
-

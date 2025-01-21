@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
 }
 
@@ -29,6 +30,12 @@ dependencies {
     implementation(libs.gsonConverter)
     implementation(libs.okhttp3)
     implementation(libs.gson)
+
+    // Room Dependencies
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
+    implementation(libs.room.ktx)
+
 
     // Hilt Dependencies
     implementation(libs.dagger.hilt.android)

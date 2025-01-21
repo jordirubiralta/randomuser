@@ -32,7 +32,8 @@ import com.jordirubiralta.feature.users.model.UserUIModel
 @Composable
 fun UserCard(
     uiModel: UserUIModel,
-    onCloseClicked: () -> Unit
+    onRowClicked: (String) -> Unit,
+    onRemoveClicked: (String) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -64,14 +65,12 @@ fun UserCard(
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 // Email
-                uiModel.email?.takeIf { it.isNotBlank() }?.let { email ->
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = email,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = uiModel.email,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
                 // Phone
                 uiModel.phone?.takeIf { it.isNotBlank() }?.let { phone ->
                     Spacer(modifier = Modifier.height(4.dp))
@@ -84,7 +83,7 @@ fun UserCard(
             }
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
-                onClick = {},
+                onClick = { onRemoveClicked.invoke(uiModel.email) },
                 modifier = Modifier.size(24.dp),
                 content = {
                     Icon(
@@ -105,6 +104,7 @@ private fun UserCardPreview(
 ) {
     UserCard(
         uiModel = previewParams,
-        onCloseClicked = {}
+        onRowClicked = {},
+        onRemoveClicked = {}
     )
 }

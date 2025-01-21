@@ -9,11 +9,6 @@ import javax.inject.Inject
 class GetUserListUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
-
-    companion object {
-        private const val USERS_COUNT = 20
-    }
-
     suspend operator fun invoke(): List<UserModel> =
-        userRepository.getUsers(USERS_COUNT)
+        userRepository.getUsers()
 }

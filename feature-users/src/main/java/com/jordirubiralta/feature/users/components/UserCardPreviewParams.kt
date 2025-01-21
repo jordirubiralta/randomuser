@@ -16,7 +16,7 @@ class UserCardPreviewParams : PreviewParameterProvider<UserUIModel> {
         UserUIModel(
             name = "Jane",
             surname = "Smith",
-            email = null,
+            email = "janesmith@example.com",
             imageUrl = null,
             phone = null
         )

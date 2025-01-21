@@ -42,7 +42,8 @@ fun UsersScreen(
         itemsIndexed(state.userList) { index, model ->
             UserCard(
                 uiModel = model,
-                onCloseClicked = {}
+                onRowClicked = { /*Navigate to detail*/ },
+                onRemoveClicked = viewModel::deleteUser
             )
             if (index != state.userList.size.dec()) {
                 Spacer(modifier = Modifier.height(8.dp))
