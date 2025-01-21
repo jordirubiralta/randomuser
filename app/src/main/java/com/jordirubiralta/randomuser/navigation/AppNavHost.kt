@@ -1,5 +1,6 @@
 package com.jordirubiralta.randomuser.navigation
 
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -12,19 +13,20 @@ import com.jordirubiralta.feature.users.UsersScreen
 fun AppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startDestination: String = NavigationItem.UsersList.route,
+    snackbarHostState: SnackbarHostState,
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = startDestination
+        startDestination = NavigationItem.UsersList.route
     ) {
         composable(NavigationItem.UsersList.route) {
             UsersScreen(
                 navigateToDetail = { email ->
                     val route = NavigationItem.UserDetail.createRoute(email = email)
                     navController.navigate(route)
-                }
+                },
+                snackbarState = snackbarHostState
             )
         }
         composable(NavigationItem.UserDetail.route) { navBackStackEntry ->

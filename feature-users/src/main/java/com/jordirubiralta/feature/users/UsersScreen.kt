@@ -46,13 +46,13 @@ import kotlinx.coroutines.launch
 @Composable
 fun UsersScreen(
     navigateToDetail: (String) -> Unit,
+    snackbarState: SnackbarHostState,
     modifier: Modifier = Modifier,
     viewModel: UsersViewModel = hiltViewModel(),
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
     val lazyListState = rememberLazyListState()
-    val snackbarState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
     var someInputText by remember { mutableStateOf(TextFieldValue("")) }
@@ -62,109 +62,96 @@ fun UsersScreen(
         viewModel.fetchUsers(someInputText.text)
     }
 
-    Scaffold(
-        modifier = modifier.fillMaxSize(),
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text(stringResource(R.string.user_list_title)) }
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                containerColor = MaterialTheme.colorScheme.primary,
-                onClick = {
-                    coroutineScope.launch {
-                        lazyListState.animateScrollToItem(0)
-                    }
-                },
-                content = {
-                    Icon(
-                        modifier = Modifier.padding(16.dp),
-                        painter = painterResource(R.drawable.arrow_up),
-                        contentDescription = stringResource(R.string.scroll_up)
-                    )
-                }
-            )
-        },
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarState)
-        },
-        content = { paddingValues ->
-            LazyColumn(
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize(),
+        state = lazyListState,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        item {
+            TextField(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                state = lazyListState,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                item {
-                    TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        value = someInputText,
-                        onValueChange = {
-                            someInputText = it
-                        },
-                        label = { Text(text = stringResource(R.string.filter)) },
-                        placeholder = {
-                            Text(
-                                text = stringResource(R.string.input_hint),
-                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-                            )
-                        },
-                        singleLine = true,
-                        trailingIcon = {
-                            IconButton(
-                                onClick = { someInputText = TextFieldValue("") },
-                                content = {
-                                    Icon(
-                                        painter = painterResource(R.drawable.close),
-                                        contentDescription = stringResource(R.string.close)
-                                    )
-                                }
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                value = someInputText,
+                onValueChange = {
+                    someInputText = it
+                },
+                label = { Text(text = stringResource(R.string.filter)) },
+                placeholder = {
+                    Text(
+                        text = stringResource(R.string.input_hint),
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                    )
+                },
+                singleLine = true,
+                trailingIcon = {
+                    IconButton(
+                        onClick = { someInputText = TextFieldValue("") },
+                        content = {
+                            Icon(
+                                painter = painterResource(R.drawable.close),
+                                contentDescription = stringResource(R.string.close)
                             )
                         }
                     )
                 }
+            )
+        }
 
-                itemsIndexed(state.userList) { index, model ->
-                    UserCard(
-                        uiModel = model,
-                        onRowClicked = { navigateToDetail(it) },
-                        onRemoveClicked = viewModel::deleteUser
-                    )
-                    if (index != state.userList.size.dec()) {
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-                }
+        itemsIndexed(state.userList) { index, model ->
+            UserCard(
+                uiModel = model,
+                onRowClicked = { navigateToDetail(it) },
+                onRemoveClicked = viewModel::deleteUser
+            )
+            if (index != state.userList.size.dec()) {
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
 
-                if (state.userList.isEmpty()) {
-                    item {
-                        Text(stringResource(R.string.no_results))
-                    }
-                }
+        if (state.userList.isEmpty()) {
+            item {
+                Text(stringResource(R.string.no_results))
+            }
+        }
 
-                item {
-                    if (state.isLoading) {
-                        CircularProgressIndicator(
-                            strokeWidth = 3.dp,
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .size(40.dp)
-                        )
-                    } else if (someInputText.text.isBlank()) {
-                        Button(
-                            modifier = Modifier
-                                .padding(vertical = 16.dp)
-                                .background(MaterialTheme.colorScheme.background),
-                            onClick = { viewModel.fetchMoreUsers() }
-                        ) {
-                            Text(stringResource(R.string.load_more))
-                        }
-                    }
+        item {
+            if (state.isLoading) {
+                CircularProgressIndicator(
+                    strokeWidth = 3.dp,
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .size(40.dp)
+                )
+            } else if (someInputText.text.isBlank()) {
+                Button(
+                    modifier = Modifier
+                        .padding(vertical = 16.dp)
+                        .background(MaterialTheme.colorScheme.background),
+                    onClick = { viewModel.fetchMoreUsers() }
+                ) {
+                    Text(stringResource(R.string.load_more))
                 }
             }
         }
-    )
+    }
 }
+
+//        floatingActionButton = {
+//            FloatingActionButton(
+//                containerColor = MaterialTheme.colorScheme.primary,
+//                onClick = {
+//                    coroutineScope.launch {
+//                        lazyListState.animateScrollToItem(0)
+//                    }
+//                },
+//                content = {
+//                    Icon(
+//                        modifier = Modifier.padding(16.dp),
+//                        painter = painterResource(R.drawable.arrow_up),
+//                        contentDescription = stringResource(R.string.scroll_up)
+//                    )
+//                }
+//            )
+//        },
