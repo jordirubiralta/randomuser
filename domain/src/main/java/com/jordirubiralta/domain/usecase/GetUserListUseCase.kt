@@ -9,6 +9,6 @@ import javax.inject.Inject
 class GetUserListUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
-    suspend operator fun invoke(): List<UserModel> =
-        userRepository.getUsers()
+    suspend operator fun invoke(search: String?): List<UserModel> =
+        userRepository.getUsers(search = search)
 }

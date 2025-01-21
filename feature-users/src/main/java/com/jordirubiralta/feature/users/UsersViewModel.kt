@@ -9,6 +9,7 @@ import com.jordirubiralta.feature.users.model.UserUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,12 +23,13 @@ class UsersViewModel @Inject constructor(
     private val deleteUserUseCase: DeleteUserUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(UsersScreenState(isLoading = true))
+    private val _state = MutableStateFlow(UsersScreenState())
     val state: StateFlow<UsersScreenState> = _state.asStateFlow()
 
-    fun getUsers() {
+    fun getUsers(search: String? = null) {
         viewModelScope.launch {
-            val users = getUserListUseCase.invoke()
+            reduceState(isLoading = true)
+            val users = getUserListUseCase.invoke(search = search)
             reduceState(
                 isLoading = false,
                 userList = UserUIMapper.fromUserModelListToUIModel(users)

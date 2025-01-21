@@ -22,11 +22,17 @@ class UserRepositoryImpl @Inject constructor(
         private const val RESULTS_PER_PAGE = 20
     }
 
-    override suspend fun getUsers(): List<UserModel> = withContext(ioDispatcher) {
-        (localDataSource.getAllUsers().takeUnless { it.isEmpty() } ?: getNetworkUsers()).apply {
-            val deletedUsers = localDataSource.getDeletedUsers()
-            this.filter { deletedUsers.contains(it.email) }
-        }
+    override suspend fun getUsers(search: String?): List<UserModel> = withContext(ioDispatcher) {
+        val users = (localDataSource.getAllUsers().takeUnless { it.isEmpty() } ?: getNetworkUsers())
+        return@withContext search?.let {
+            users.filter { user ->
+                user.name.contains(it, ignoreCase = true)
+                        || user.name.contains(it, ignoreCase = true)
+                        || user.name.contains(
+                    it, ignoreCase = true
+                )
+            }
+        } ?: users
     }
 
     override suspend fun deleteUser(email: String) {
@@ -36,8 +42,10 @@ class UserRepositoryImpl @Inject constructor(
     // private methods
     private suspend fun getNetworkUsers(): List<UserModel> {
         val users = networkDataSource.getUsers(results = RESULTS_PER_PAGE).distinctBy { it.email }
-        localDataSource.insertAllUsers(userList = users)
-        return users
+        val deletedUsers = localDataSource.getDeletedUsers()
+        val filteredList = users.filterNot { deletedUsers.contains(it.email) }
+        localDataSource.insertAllUsers(userList = filteredList)
+        return filteredList
     }
 
 }
