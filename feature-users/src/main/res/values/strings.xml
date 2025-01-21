@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="scroll_up">Scroll up</string>
     <string name="close">Close</string>
     <string name="filter">Filter</string>
+    <string name="user_list_title">Users List</string>
 </resources>

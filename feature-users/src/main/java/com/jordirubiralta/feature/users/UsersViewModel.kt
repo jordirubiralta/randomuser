@@ -3,13 +3,13 @@ package com.jordirubiralta.feature.users
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jordirubiralta.domain.usecase.DeleteUserUseCase
-import com.jordirubiralta.domain.usecase.GetUserListUseCase
+import com.jordirubiralta.domain.usecase.FetchMoreUsersUseCase
+import com.jordirubiralta.domain.usecase.FetchUsersUseCase
 import com.jordirubiralta.feature.users.mapper.UserUIMapper
 import com.jordirubiralta.feature.users.model.UserUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,20 +19,42 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UsersViewModel @Inject constructor(
-    private val getUserListUseCase: GetUserListUseCase,
+    private val fetchUsersUseCase: FetchUsersUseCase,
+    private val fetchMoreUsersUseCase: FetchMoreUsersUseCase,
     private val deleteUserUseCase: DeleteUserUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(UsersScreenState())
     val state: StateFlow<UsersScreenState> = _state.asStateFlow()
 
-    fun getUsers(search: String? = null) {
+    var page: Int? = null
+
+    fun fetchUsers(search: String? = null) {
         viewModelScope.launch {
             reduceState(isLoading = true)
-            val users = getUserListUseCase.invoke(search = search)
+            val userListModel = fetchUsersUseCase.invoke(search = search)
+            page = userListModel.page
             reduceState(
                 isLoading = false,
-                userList = UserUIMapper.fromUserModelListToUIModel(users)
+                isLoadingMore = false,
+                userList = UserUIMapper.fromUserModelListToUIModel(list = userListModel.userList)
+            )
+        }
+    }
+
+    fun fetchMoreUsers(search: String? = null) {
+        viewModelScope.launch {
+            reduceState(isLoadingMore = true)
+            val userListModel = fetchMoreUsersUseCase.invoke(
+                search = search,
+                page = page?.inc() ?: 1
+            )
+            page = userListModel.page
+            val newList = UserUIMapper.fromUserModelListToUIModel(list = userListModel.userList)
+            reduceState(
+                isLoading = false,
+                isLoadingMore = false,
+                userList = (_state.value.userList + newList).toImmutableList()
             )
         }
     }

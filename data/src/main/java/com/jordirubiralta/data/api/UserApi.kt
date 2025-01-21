@@ -8,7 +8,8 @@ interface UserApi {
 
     @GET("/")
     suspend fun getUsers(
-        @Query("results") results: Int
+        @Query("results") results: Int,
+        @Query("page") page: Int?
     ): UserListResponse
 
 }

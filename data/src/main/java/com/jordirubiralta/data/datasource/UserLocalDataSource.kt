@@ -3,6 +3,7 @@ package com.jordirubiralta.data.datasource
 import com.jordirubiralta.data.database.dao.UserDao
 import com.jordirubiralta.data.database.entity.DeletedUserEntity
 import com.jordirubiralta.data.mapper.UserMapper
+import com.jordirubiralta.domain.model.UserListModel
 import com.jordirubiralta.domain.model.UserModel
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -12,9 +13,9 @@ class UserLocalDataSource @Inject constructor(
     private val userDao: UserDao
 ) {
 
-    suspend fun getAllUsers(): List<UserModel> {
+    suspend fun getAllUsers(): UserListModel {
         val modelList = UserMapper.fromUserListEntityToModel(list = userDao.getAllUsers())
-        return modelList
+        return UserListModel(userList = modelList)
     }
 
     suspend fun insertAllUsers(userList: List<UserModel>) {
