@@ -5,6 +5,5 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "deleted_users")
 data class DeletedUserEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val email: String,
+    @PrimaryKey val email: String,
 )
