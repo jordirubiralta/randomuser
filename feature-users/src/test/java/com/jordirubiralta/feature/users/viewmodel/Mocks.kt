@@ -1,11 +1,11 @@
-package com.jordirubiralta.domain
+package com.jordirubiralta.feature.users.viewmodel
 
 import com.jordirubiralta.domain.model.UserListModel
 import com.jordirubiralta.domain.model.UserModel
 
 object Mocks {
 
-    val UserModelList = listOf(
+    private val UserModelList = listOf(
         UserModel(
             gender = "Male",
             title = "Mr.",
@@ -35,5 +35,18 @@ object Mocks {
     val UserListModel = UserListModel(
         userList = UserModelList,
         page = 2
+    )
+
+    val UserModel = UserModel(
+        gender = "Male",
+        title = "Mr.",
+        name = "David",
+        surname = "Palmer",
+        email = "david.palmer@example.com",
+        thumbnailImageUrl = "http://example.com/thumbnail.jpg",
+        largeImageUrl = "http://example.com/large.jpg",
+        phone = "123456789",
+        location = "New York",
+        registreredDate = "2023-01-01"
     )
 }
