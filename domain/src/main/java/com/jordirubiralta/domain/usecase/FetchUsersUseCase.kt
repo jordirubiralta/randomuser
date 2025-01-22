@@ -9,6 +9,16 @@ import javax.inject.Inject
 class FetchUsersUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
+    /**
+     * Fetches a list of users with an optional search filter.
+     *
+     * This function retrieves the full list of users from the repository. If a non-blank search query
+     * is provided, it filters the user list using the `filterList` function. If the search query is null
+     * or blank, the full list is returned without filtering.
+     *
+     * @param search The search query to filter the user list. If null or blank, no filtering is applied.
+     * @return A `UserListModel` containing the filtered or unfiltered list of users.
+     */
     suspend operator fun invoke(search: String?): UserListModel {
         val userListModel = userRepository.fetchUsers()
 
