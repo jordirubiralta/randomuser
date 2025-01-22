@@ -16,15 +16,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jordirubiralta.feature.detail.component.DetailContent
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
-    onBackClick: () -> Unit,
     email: String,
     modifier: Modifier = Modifier,
     viewModel: DetailViewModel = hiltViewModel()
@@ -35,48 +34,44 @@ fun DetailScreen(
     LaunchedEffect(Unit) {
         viewModel.getUserByEmail(email = email)
     }
+    when (state) {
+        is DetailScreenState.Success -> {
+            DetailContent(
+                modifier = modifier.fillMaxSize(),
+                user = (state as DetailScreenState.Success).user
+            )
+        }
 
-
-    Scaffold() { paddingValues ->
-        when (state) {
-            is DetailScreenState.Success -> {
-                DetailContent(
-                    modifier = modifier.padding(paddingValues),
-                    user = (state as DetailScreenState.Success).user
+        is DetailScreenState.Loading -> {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                CircularProgressIndicator(
+                    strokeWidth = 3.dp,
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .size(40.dp)
+                        .align(Alignment.Center)
                 )
             }
-            is DetailScreenState.Loading -> {
-                Box(
-                    modifier = Modifier
-                        .padding(paddingValues)
-                        .fillMaxSize()
-                ) {
-                    CircularProgressIndicator(
-                        strokeWidth = 3.dp,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .size(40.dp)
-                            .align(Alignment.Center)
-                    )
-                }
+        }
+
+        is DetailScreenState.Empty -> {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(text = stringResource(R.string.empty_detail))
             }
-            is DetailScreenState.Empty -> {
-                Box(
-                    modifier = Modifier
-                        .padding(paddingValues)
-                        .fillMaxSize()
-                ) {
-                    Text(text = "MENSAJE VACIO")
-                }
-            }
-            is DetailScreenState.Error -> {
-                Box(
-                    modifier = Modifier
-                        .padding(paddingValues)
-                        .fillMaxSize()
-                ) {
-                    Text(text = "MENSAJE ERROR")
-                }
+        }
+
+        is DetailScreenState.Error -> {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    text = (state as DetailScreenState.Error).message
+                        ?: stringResource(R.string.generic_error)
+                )
             }
         }
     }

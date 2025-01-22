@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="empty_detail">No information about the user was found.</string>
+    <string name="generic_error">Something went wrong. Please try again later.</string>
+    <string name="user_image">User Image</string>
+    <string name="email_info">Email: %s</string>
+    <string name="phone_info">Phone: %s</string>
+    <string name="location_info">Location: %s</string>
+    <string name="gender_info">Gender: %s</string>
+    <string name="registered_info">Registered: %s</string>
+</resources>

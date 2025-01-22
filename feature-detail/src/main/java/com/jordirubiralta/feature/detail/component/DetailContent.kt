@@ -15,10 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.jordirubiralta.feature.detail.R
 import com.jordirubiralta.feature.detail.model.UserDetailUIModel
 
 @Composable
@@ -37,7 +39,7 @@ fun DetailContent(
             .build()
         AsyncImage(
             model = imageRequest,
-            contentDescription = "User Image",
+            contentDescription = stringResource(R.string.user_image),
             modifier = Modifier
                 .padding(16.dp)
                 .size(200.dp)
@@ -52,34 +54,37 @@ fun DetailContent(
         )
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = "Email: ${user.email}",
+            text = stringResource(R.string.email_info, user.email),
             style = MaterialTheme.typography.bodyLarge
         )
         user.phone?.let {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Phone: $it",
+                text = stringResource(R.string.phone_info, it),
                 style = MaterialTheme.typography.bodyMedium
             )
         }
         user.location?.let {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Location: $it",
+                text = stringResource(R.string.location_info, it),
                 style = MaterialTheme.typography.bodyMedium
             )
         }
         user.gender?.let { gender ->
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Gender: ${gender.replaceFirstChar { it.uppercase() }}",
+                text = stringResource(
+                    R.string.generic_error,
+                    gender.replaceFirstChar { it.uppercase() }
+                ),
                 style = MaterialTheme.typography.bodyMedium
             )
         }
         user.registeredDate?.let {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Registered $it",
+                text = stringResource(R.string.registered_info, it),
                 style = MaterialTheme.typography.bodyMedium
             )
         }

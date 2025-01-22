@@ -31,10 +31,7 @@ fun AppNavHost(
         }
         composable(NavigationItem.UserDetail.route) { navBackStackEntry ->
             val email = navBackStackEntry.arguments?.getString("email").orEmpty()
-            DetailScreen(
-                email = email,
-                onBackClick = { navController.popBackStack() }
-            )
+            DetailScreen(email = email,)
         }
     }
 }

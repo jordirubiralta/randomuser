@@ -50,7 +50,7 @@ fun UserCard(
             // User Image
             AsyncImage(
                 model = uiModel.imageUrl ?: "https://via.placeholder.com/150",
-                contentDescription = "User Image",
+                contentDescription = stringResource(R.string.user_image),
                 modifier = Modifier
                     .padding(end = 16.dp)
                     .size(64.dp)
