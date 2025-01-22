@@ -13,8 +13,6 @@ hilt = "2.51.1"
 hiltNavigation = "1.2.0"
 kotlinPlugin = "2.1.0"
 ksp = "2.0.21-1.0.27"
-appcompatVersion = "1.7.0"
-material = "1.12.0"
 retrofit = "2.11.0"
 okhttp3 = "5.0.0-alpha.14"
 javaxInject = "1"
@@ -24,7 +22,6 @@ coil = "3.0.4"
 room = "2.6.1"
 mockk = "1.13.16"
 coroutinesTest = "1.9.0"
-mockito = "5.15.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -45,8 +42,6 @@ androidx-compose-navigation = { group = "androidx.navigation", name = "navigatio
 dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigation" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompatVersion" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit"}
 gsonConverter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit"}
 okhttp3 = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3"}
@@ -60,8 +55,6 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room"}
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutinesTest" }
-mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito" }
-
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
