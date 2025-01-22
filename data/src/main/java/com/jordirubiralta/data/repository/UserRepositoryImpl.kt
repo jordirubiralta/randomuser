@@ -30,10 +30,9 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun fetchUsersFromNetwork(page: Int): UserListModel =
         withContext(ioDispatcher) {
             val userListModel = networkDataSource.getUsers(results = RESULTS_PER_PAGE, page = page)
-
             val filteredList = filterDeletedUsers(userListModel.userList)
             localDataSource.insertAllUsers(userList = filteredList)
-            return@withContext userListModel.copy(userList = filteredList)
+            return@withContext userListModel.copy(userList = filteredList.distinctBy { it.email })
         }
 
     override suspend fun deleteUser(email: String) = withContext(ioDispatcher) {
@@ -45,7 +44,6 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     // private method
-
     private suspend fun filterDeletedUsers(users: List<UserModel>): List<UserModel> {
         val deletedUsers = localDataSource.getDeletedUsers()
         return users.filterNot { deletedUsers.contains(it.email) }

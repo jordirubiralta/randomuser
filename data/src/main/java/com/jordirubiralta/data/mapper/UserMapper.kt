@@ -1,6 +1,5 @@
 package com.jordirubiralta.data.mapper
 
-import com.jordirubiralta.data.database.entity.DeletedUserEntity
 import com.jordirubiralta.data.database.entity.UserEntity
 import com.jordirubiralta.data.model.UserListResponse
 import com.jordirubiralta.data.model.UserResponse
@@ -9,6 +8,7 @@ import com.jordirubiralta.domain.model.UserModel
 
 object UserMapper {
 
+    // response to model
     fun fromUserListResponseToModel(response: UserListResponse) = UserListModel(
         userList = response.results?.map(::fromUserResponseToModel) ?: emptyList(),
         page = response.info?.page
