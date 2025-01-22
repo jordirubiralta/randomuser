@@ -10,5 +10,5 @@ data class UserModel(
     val largeImageUrl: String?,
     val phone: String?,
     val location: String?,
-    val registreredDate: String?
+    val registeredDate: String?
 )

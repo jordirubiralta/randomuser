@@ -26,7 +26,7 @@ sealed class NavigationItem(
     }
 }
 
-private object ArgParams {
+object ArgParams {
     const val EMAIL = "email"
 }
 

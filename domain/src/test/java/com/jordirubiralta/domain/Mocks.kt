@@ -16,7 +16,7 @@ object Mocks {
             largeImageUrl = "http://example.com/large.jpg",
             phone = "123456789",
             location = "New York",
-            registreredDate = "2023-01-01"
+            registeredDate = "2023-01-01"
         ),
         UserModel(
             gender = null,
@@ -28,7 +28,7 @@ object Mocks {
             largeImageUrl = null,
             phone = null,
             location = null,
-            registreredDate = "2022-12-01"
+            registeredDate = "2022-12-01"
         )
     )
 

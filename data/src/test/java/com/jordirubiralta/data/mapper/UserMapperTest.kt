@@ -41,7 +41,7 @@ class UserMapperTest {
             )
             Assert.assertEquals(
                 mockResponse.results?.get(index)?.registered?.date,
-                userModel.registreredDate
+                userModel.registeredDate
             )
         }
     }
@@ -67,7 +67,7 @@ class UserMapperTest {
             Assert.assertNull(userModel.thumbnailImageUrl)
             Assert.assertNull(userModel.largeImageUrl)
             Assert.assertNull(userModel.location)
-            Assert.assertNull(userModel.registreredDate)
+            Assert.assertNull(userModel.registeredDate)
         }
     }
 
@@ -104,7 +104,7 @@ class UserMapperTest {
             Assert.assertEquals(mockUserList[index].thumbnailImageUrl, model.thumbnailImageUrl)
             Assert.assertEquals(mockUserList[index].largeImageUrl, model.largeImageUrl)
             Assert.assertEquals(mockUserList[index].location, model.location)
-            Assert.assertEquals(mockUserList[index].registreredDate, model.registreredDate)
+            Assert.assertEquals(mockUserList[index].registeredDate, model.registeredDate)
         }
     }
 
@@ -127,7 +127,7 @@ class UserMapperTest {
             Assert.assertEquals(mockUserList[index].thumbnailImageUrl, model.thumbnailImageUrl)
             Assert.assertEquals(mockUserList[index].largeImageUrl, model.largeImageUrl)
             Assert.assertEquals(mockUserList[index].location, model.location)
-            Assert.assertEquals(mockUserList[index].registreredDate, model.registreredDate)
+            Assert.assertEquals(mockUserList[index].registeredDate, model.registeredDate)
         }
     }
 }

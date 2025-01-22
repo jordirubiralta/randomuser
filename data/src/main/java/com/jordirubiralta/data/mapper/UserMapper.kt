@@ -24,7 +24,7 @@ object UserMapper {
         thumbnailImageUrl = response.picture?.thumbnail,
         largeImageUrl = response.picture?.large,
         location = response.location?.toString(),
-        registreredDate = response.registered?.date
+        registeredDate = response.registered?.date
     )
 
     // model to entity
@@ -41,7 +41,7 @@ object UserMapper {
         thumbnailImageUrl = model.thumbnailImageUrl,
         largeImageUrl = model.largeImageUrl,
         location = model.location,
-        registreredDate = model.registreredDate
+        registeredDate = model.registeredDate
     )
 
     fun fromUserListEntityToModel(list: List<UserEntity>): List<UserModel> =
@@ -57,6 +57,6 @@ object UserMapper {
         thumbnailImageUrl = entity.thumbnailImageUrl,
         largeImageUrl = entity.largeImageUrl,
         location = entity.location,
-        registreredDate = entity.registreredDate
+        registeredDate = entity.registeredDate
     )
 }

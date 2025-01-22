@@ -19,7 +19,7 @@ object UserDetailUIMapper {
         name = model.name,
         surname = model.surname,
         location = model.location,
-        registeredDate = model.registreredDate?.let { formatDate(it) },
+        registeredDate = model.registeredDate?.let { formatDate(it) },
         email = model.email,
         imageUrl = model.largeImageUrl,
         phone = model.phone

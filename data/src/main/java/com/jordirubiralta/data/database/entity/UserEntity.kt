@@ -13,6 +13,6 @@ data class UserEntity(
     val thumbnailImageUrl: String?,
     val largeImageUrl: String?,
     val phone: String?,
-    val registreredDate: String?,
+    val registeredDate: String?,
     val location: String?
 )

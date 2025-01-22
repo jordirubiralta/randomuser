@@ -24,7 +24,7 @@ object Mocks {
             thumbnailImageUrl = "http://example.com/thumbnail.jpg",
             largeImageUrl = "http://example.com/large.jpg",
             phone = "123456789",
-            registreredDate = "2023-01-01",
+            registeredDate = "2023-01-01",
             location = "New York"
         ),
         UserEntity(
@@ -36,7 +36,7 @@ object Mocks {
             thumbnailImageUrl = null,
             largeImageUrl = null,
             phone = null,
-            registreredDate = "2022-12-01",
+            registeredDate = "2022-12-01",
             location = null
         )
     )
@@ -52,7 +52,7 @@ object Mocks {
             largeImageUrl = "http://example.com/large.jpg",
             phone = "123456789",
             location = "New York",
-            registreredDate = "2023-01-01"
+            registeredDate = "2023-01-01"
         ),
         UserModel(
             gender = null,
@@ -64,7 +64,7 @@ object Mocks {
             largeImageUrl = null,
             phone = null,
             location = null,
-            registreredDate = "2022-12-01"
+            registeredDate = "2022-12-01"
         )
     )
 
@@ -79,7 +79,7 @@ object Mocks {
             largeImageUrl = "http://example.com/large.jpg",
             phone = "123456789",
             location = "New York",
-            registreredDate = "2023-01-01"
+            registeredDate = "2023-01-01"
         ),
         UserModel(
             gender = "Male",
@@ -91,7 +91,7 @@ object Mocks {
             largeImageUrl = "http://example.com/large.jpg",
             phone = "123456789",
             location = "New York",
-            registreredDate = "2023-01-01"
+            registeredDate = "2023-01-01"
         )
     )
 

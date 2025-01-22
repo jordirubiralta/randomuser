@@ -20,7 +20,7 @@ fun AppNavHost(
         navController = navController,
         startDestination = NavigationItem.UserList.route
     ) {
-        composable(NavigationItem.UserList.route) {
+        composable(route = NavigationItem.UserList.route) {
             UsersScreen(
                 navigateToDetail = { email ->
                     val route = NavigationItem.UserDetail.createRoute(email = email)
@@ -29,9 +29,12 @@ fun AppNavHost(
                 snackbarState = snackbarHostState
             )
         }
-        composable(NavigationItem.UserDetail.route) { navBackStackEntry ->
-            val email = navBackStackEntry.arguments?.getString("email").orEmpty()
-            DetailScreen(email = email,)
+        composable(
+            route = NavigationItem.UserDetail.route,
+            arguments = NavigationItem.UserDetail.navArguments
+        ) { navBackStackEntry ->
+            val email = navBackStackEntry.arguments?.getString(ArgParams.EMAIL).orEmpty()
+            DetailScreen(email = email)
         }
     }
 }

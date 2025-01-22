@@ -13,6 +13,6 @@ object Mocks {
         largeImageUrl = "http://example.com/large.jpg",
         phone = "123456789",
         location = "New York",
-        registreredDate = "2021-12-01T11:06:56.901Z"
+        registeredDate = "2021-12-01T11:06:56.901Z"
     )
 }
