@@ -50,9 +50,10 @@ dependencies {
     // Unit and Android Tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom)) // BOM for Compose in tests
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutines.test)
 
     // Debug Tools
     debugImplementation(libs.androidx.ui.tooling)
